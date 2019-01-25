@@ -9,13 +9,14 @@ GAME RULES:
 
 */
 
-let scores, roundScore, activePlayer;
-
+let scores, roundScore, activePlayer, gamePlaying;
+gamePlaying = true;
 init();
 
-//ADD EVENT LISTENER
+//ADD EVENT LISTENER TO BTN-ROLL
 document.querySelector('.btn-roll').addEventListener('click', function() {
-
+   // STATE VARIABLE - gamePlaying. If false game stops.
+  if(gamePlaying) {
   // 1. Random number
   let dice = Math.floor(Math.random() * 6) + 1;
    
@@ -34,11 +35,14 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     nextPlayer();
    }  
 
+  }
 });
 
+  //BTN HOLD FUNCTIONALITY
 document.querySelector('.btn-hold').addEventListener('click', function(){
-//Add CURRENT score to GLOBAL score
-//scores[activePlayer] = scores[activePlayer] + roundScore;
+  if(gamePlaying) {
+  //Add CURRENT score to GLOBAL score
+ //scores[activePlayer] = scores[activePlayer] + roundScore;
 scores[activePlayer] += roundScore;
 
 //Update the UI
@@ -50,11 +54,12 @@ if (scores[activePlayer] >= 10) {
  document.querySelector('.dice').style.display = 'none';
  document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
  document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+ gamePlaying = false; //Set state to false // if false u cannot proceed with the game
 } else {
  //Next PLayer
  nextPlayer();
 }
-
+   }
 });
 
 function nextPlayer() {
@@ -75,6 +80,7 @@ function nextPlayer() {
 }
 
 
+// RESET BUTTON FUNCTIONALITY 
 document.querySelector('.btn-new').addEventListener('click', init);
 
 function init() {
@@ -95,6 +101,7 @@ function init() {
   document.querySelector('.player-0-panel').classList.remove('active');
   document.querySelector('.player-1-panel').classList.remove('active');
   document.querySelector('.player-0-panel').classList.add('active');
+  gamePlaying = true;
 }
 
 
